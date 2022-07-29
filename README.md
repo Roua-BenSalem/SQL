@@ -1,2 +1,2 @@
 # SQL
-My SQL Codes
+A Collection of My SQL Codes
