@@ -1,8 +1,3 @@
-
-
---select * from dbo.CovidVaccinations 
---order by 3,4
-
 select location, date, total_cases, new_cases, total_deaths, population
 from dbo.CovidDeaths 
 order by 1,2 
@@ -64,14 +59,6 @@ from dbo.CovidDeaths
 where continent is not null
 order by  1,2 desc
 
---R dRAFT
----- Join tables 
---select * 
---from dbo.CovidDeaths d
---Join dbo.CovidVaccinations vac 
---on d.location=vac.location 
---and d.date=vac.date
-
 -- Looking at Total population vs Vaccinations 
 -- USE CTE 
 with PopVsVac (continent, location, date, population, new_vaccinations, VaccinatedPeople)
@@ -88,36 +75,6 @@ where d.continent is not null
 ) 
 select *, (VaccinatedPeople/population)*100 as vaccinatedPercent from PopVsVac 
 
--- R draft 
----- Max 
-
---with PopVsVac (continent, location, date, population, new_vaccinations, VaccinatedPeople)
---as 
---(
---select d.continent, d.location, d.date, d.population, vac.new_vaccinations,  
---sum(vac.new_vaccinations ) over (partition by d.location order by d.location, d.date) as VaccinatedPeople
---from dbo.CovidDeaths d
---Join dbo.CovidVaccinations vac 
---on d.location=vac.location 
---and d.date=vac.date 
---where d.continent is not null 
----- order by 2, 3 
---) 
-
---select location,  MAX(new_vaccinations), MAX(VaccinatedPeople), (MAX(VaccinatedPeople)/population)*100 as TotalvaccinatedPercent 
---from PopVsVac 
---group by location
-
----- USE temp table 
-
---select d.continent, d.location, d.date, d.population, vac.new_vaccinations,  
---sum(vac.new_vaccinations ) over (partition by d.location order by d.location, d.date) as VaccinatedPeople
---from dbo.CovidDeaths d
---Join dbo.CovidVaccinations vac 
---on d.location=vac.location 
---and d.date=vac.date 
---where d.continent is not null 
----- order by 2, 3 
 
 -- Create table #PercentPopulationVaccinated  
 Drop table if exists #PercentPopulationVaccinated
